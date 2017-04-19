@@ -10,9 +10,7 @@ In cryptography and computer science, a hash tree or Merkle tree is a tree in wh
 ### Merkle tree
   - https://fr.wikipedia.org/wiki/Arbre_de_Merkle
   - http://blogchaincafe.com/merkle-roots-et-merkle-trees-expliques
-  - https://bitcoin.stackexchange.com/questions/1110/how-do-i-implement-a-merkle-tree
   - https://www.weusecoins.com/what-is-a-merkle-tree/
   - https://brilliant.org/wiki/merkle-tree/
 ### Lamport signature
   - https://en.wikipedia.org/wiki/Lamport_signature
-  - http://dictionnaire.sensagent.leparisien.fr/Lamport%20signature/en-en/
