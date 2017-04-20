@@ -14,3 +14,4 @@ In cryptography and computer science, a hash tree or Merkle tree is a tree in wh
   - https://brilliant.org/wiki/merkle-tree/
 ### Lamport signature
   - https://en.wikipedia.org/wiki/Lamport_signature
+  - http://www.fil.univ-lille1.fr/~bouillaguet/PAC/TD/td3.pdf

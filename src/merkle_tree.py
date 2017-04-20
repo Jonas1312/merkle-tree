@@ -9,8 +9,7 @@ import hashlib
 
 
 class MerkleTree:
-    """
-    Constructor for MerkleTree
+    """MerkleTree class
 
     Attributes:
         leaves (list): leaves of the tree.
@@ -20,8 +19,7 @@ class MerkleTree:
     """
 
     def __init__(self, hash_type='sha256'):
-        """
-        Constructor for MerkleTree
+        """Constructor for MerkleTree
         
         Args:
             hash_type (str): Hash type, 'sha256' or 'md5'
@@ -38,8 +36,7 @@ class MerkleTree:
             raise Exception("Invalid hash type")
 
     def add_leaf(self, data, hashed=False):
-        """
-        Add a leaf or a list of leafs.
+        """Add a leaf or a list of leafs.
         
         Note:
             If 'hashed' is False then 'data' will be hashed.
@@ -65,3 +62,21 @@ class MerkleTree:
     @staticmethod
     def to_hex(byte_array):
         return byte_array.hex()
+
+
+def main():
+    tree = MerkleTree()
+
+    tree.add_leaf("test")
+    tree.add_leaf("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", hashed=True)
+    tree.add_leaf(["test", "retest", "reretest"])
+    with open('9a30a503b2862c51c3c5acd7fbce2f1f784cf4658ccf8e87d5023a90c21c0714.txt', 'rb') as file:
+        buf = file.read()
+        tree.add_leaf(buf)
+
+    for leaf in tree.leaves:
+        print(tree.to_hex(leaf))
+
+
+if __name__ == "__main__":
+    main()
