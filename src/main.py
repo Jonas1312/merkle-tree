@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding:utf-8
 """
-  Purpose:  Main file
+  Purpose:  Main file.
   Created:  19/04/2017
 """
 
