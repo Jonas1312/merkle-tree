@@ -1,8 +1,6 @@
 # Merkle Tree and Lamport signature Python implementation
 
 ## Merkle tree
-From [Wikipedia](https://en.wikipedia.org/wiki/Merkle_tree):
-
 In cryptography and computer science, a hash tree or Merkle tree is a tree in which every non-leaf node is labelled with the hash of the labels or values (in case of leaves) of its child nodes. Hash trees allow efficient and secure verification of the contents of large data structures. Hash trees are a generalization of hash lists and hash chains.
 
 ## Lamport One-Time Signature Scheme
@@ -10,6 +8,7 @@ The Lamport One-Time Signature Scheme (LOTSS) is a signature scheme in which the
 
 ## Requirements
 - Python 3
+- [bitstring](https://pypi.python.org/pypi/bitstring/3.1.5)
 
 ## Links
 ### Merkle tree
@@ -19,4 +18,3 @@ The Lamport One-Time Signature Scheme (LOTSS) is a signature scheme in which the
   - https://brilliant.org/wiki/merkle-tree/
 ### Lamport signature
   - https://en.wikipedia.org/wiki/Lamport_signature
-  - http://www.fil.univ-lille1.fr/~bouillaguet/PAC/TD/td3.pdf
