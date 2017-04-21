@@ -21,8 +21,27 @@ class LamportSignature:
 
     def __init__(self):
         """Constructor for LamportSignature."""
-        self.private_key = [(urandom(32), urandom(32)) for i in range(256)]  # 2×256×256 bits = 16 KiB
-        self.public_key = [(self.hash(a), self.hash(b)) for (a, b) in self.private_key]  # 2×256×256 bits = 16 KiB
+        self.private_key = self.generate_private_key()
+        self.public_key = self.generate_public_key()
+
+    @staticmethod
+    def generate_private_key():
+        """Generate a private key.
+        
+        Returns:
+            (list): Private key, 2×256×256 bits = 16 KiB.
+
+        """
+        return [(urandom(32), urandom(32)) for i in range(256)]
+
+    def generate_public_key(self):
+        """Generate a public key.
+        
+        Returns:
+            (list): Public key, 2×256×256 bits = 16 KiB.
+        
+        """
+        return [(self.hash(a), self.hash(b)) for (a, b) in self.private_key]
 
     def sign(self, msg):
         """Sign a message with the Lamport signature.
@@ -77,17 +96,10 @@ class LamportSignature:
 
 
 def main():
-    lamport_sig = LamportSignature()
-    pubkey = lamport_sig.public_key
-
-    signature = lamport_sig.sign("test_right")
-    print(lamport_sig.verify("test_right", signature, pubkey))
-
-    signature = lamport_sig.sign("test_wrong")
-    print(lamport_sig.verify("test_wrong_wrong", signature, pubkey))
-
-    signature = lamport_sig.sign("retest_right")
-    print(lamport_sig.verify("retest_right", signature, pubkey))
+    for msg_sent, msg_to_check in (("abc", "abc"), ("abc", "aaa"), ("abc", "abc")):
+        lamport = LamportSignature()
+        signature = lamport.sign(msg_sent)
+        print(msg_sent, msg_to_check, lamport.verify(msg_to_check, signature, lamport.public_key))
 
 
 if __name__ == "__main__":
