@@ -6,64 +6,84 @@
 """
 
 import hashlib
+from math import log2, floor
 
 
 class MerkleTree:
     """MerkleTree class.
 
     Attributes:
-        leaves (list): Leaves of the tree.
-        tree (): Merkle tree.
+        tree (dict): Merkle tree.
+        n_levels (int): Number of levels in the tree
+        n_leaves (int): Number of leaves in the tree (at level 0)
         
     """
 
     def __init__(self):
         """Constructor for MerkleTree."""
-        self.leaves = list()
-        self.tree = None
+        self.tree = {}
+        self.n_levels = None
+        self.n_leaves = 0
 
-    def add_leaf(self, data, hashed=False):
-        """Add a leaf or a list of leafs.
+    def add_leaf(self, data, position=None, hashed=False):
+        """Add a leaf to the tree.
         
         Note:
             If 'hashed' is False then 'data' will be hashed.
 
         """
-        if type(data) is not list:
-            data = [data]
+        if position is None:
+            position = self.n_leaves
         if not hashed:
-            self.leaves += [bytearray.fromhex(self.hash(leaf)) for leaf in data]
+            self.tree[(0, position)] = self.hash(data)
         else:
-            self.leaves += [bytearray.fromhex(leaf) for leaf in data]
+            self.tree[(0, position)] = data
+        self.n_leaves += 1
 
     def generate_tree(self):
-        pass
+        """Generate tree."""
+        while floor(log2(self.n_leaves)) != log2(self.n_leaves):
+            self.add_leaf("Null", len(self.tree))
+
+        self.n_levels = int(log2(self.n_leaves)) + 1
+        for level in range(1, self.n_levels):
+            for pos in range(int(self.n_leaves / 2 ** level)):
+                self.tree[(level, pos)] = self.hash(
+                    self.tree[(level - 1, 2 * pos)] + self.tree[(level - 1, 2 * pos + 1)])
+
+    def get_root(self):
+        """Get root of the tree.
+        
+        Returns:
+            (bytes): root hash.
+        
+        """
+        return self.tree[(self.n_levels - 1, 0)]
 
     @staticmethod
     def hash(data):
         """Calculate sha256 hash of 'data'.
-        
+
         Returns:
-            (str): String of the hash.
+            (bytes): bytes of the hash.
 
         """
         if type(data) is not bytes:
             data = data.encode('utf-8')
-        return hashlib.sha256(data).hexdigest()
+        return hashlib.sha256(data).digest()
 
 
 def main():
     tree = MerkleTree()
-
     tree.add_leaf("test")
-    tree.add_leaf("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", hashed=True)
-    tree.add_leaf(["test", "retest", "reretest"])
-    with open('9a30a503b2862c51c3c5acd7fbce2f1f784cf4658ccf8e87d5023a90c21c0714.txt', 'rb') as file:
-        buf = file.read()
-        tree.add_leaf(buf)
-
-    for leaf in tree.leaves:
-        print(leaf.hex())
+    tree.add_leaf("retest")
+    tree.add_leaf("retest")
+    tree.add_leaf("retest")
+    tree.add_leaf("retest")
+    tree.generate_tree()
+    for (key, value) in tree.tree.items():
+        print(key, value.hex())
+    print(tree.get_root().hex())
 
 
 if __name__ == "__main__":
