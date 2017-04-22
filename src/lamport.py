@@ -66,6 +66,27 @@ class LamportSignature:
                 ret += i
         return ret
 
+    @staticmethod
+    def decatenate_key(key):
+        """Deoncatenate key.
+        
+        Args:
+            key (bytearray): Key to decatenate.
+        
+        Returns:
+            (list): Decatenated key.
+            
+        """
+        if len(key) == 8192:  # signature key size 256×256 bits
+            return [key[i:i + 32] for i in range(0, 8192, 32)]
+        elif len(key) == 16384:  # public/private key size 2x256×256 bits
+            ret = []
+            for i in range(0, 16384, 64):
+                ret.append((key[i:i + 32], key[i + 32:i + 64]))
+            return ret
+        else:
+            raise ValueError("Wrong key size.")
+
     def get_key(self, key_type, concatenate):
         """Getter for the public or private key.
         

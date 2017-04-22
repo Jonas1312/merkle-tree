@@ -47,7 +47,7 @@ class MerkleTree:
         if data is None:
             self.tree[position] = None
         elif hashed:
-            self.tree[position] = bytearray.fromhex(data)
+            self.tree[position] = data
         else:
             self.tree[position] = self.hash(data)
 
@@ -55,10 +55,14 @@ class MerkleTree:
         """Generate tree.
         
         Note:
-            Unknow node value is None.
+            Unknown node value is None.
             
         """
         self.n_levels = int(log2(self.n_leaves)) + 1
+        for level in range(self.n_levels):
+            for pos in range(int(self.n_leaves / 2 ** level)):
+                if (level, pos) not in self.tree:
+                    self.tree[(level, pos)] = None
 
         for level in range(1, self.n_levels):
             for pos in range(int(self.n_leaves / 2 ** level)):
@@ -66,8 +70,6 @@ class MerkleTree:
                 right_child = self.tree[(level - 1, 2 * pos + 1)]
                 if left_child is not None and right_child is not None:
                     self.tree[(level, pos)] = self.hash(left_child + right_child)
-                else:
-                    self.tree[(level, pos)] = None
 
     def get_root(self):
         """Get root of the tree.
@@ -78,19 +80,60 @@ class MerkleTree:
         """
         return self.tree[(self.n_levels - 1, 0)]
 
-    def get_brother(self, position):
-        """Get the brother node of the node at 'position'.
+    def get_brother_node_hash(self, position):
+        """Get the brother node of the node at 'position' (level, index).
         
+        Args:
+            position (tuple): (level, index) of the current node.
         Returns:
-            (None/bytearray): Node hash.
+            (None/bytearray): Brother's node hash.
         
         """
-        level = position[0]
-        index = position[1] + 1 if position[1] % 2 == 0 else position[1] - 1
         try:
-            return self.tree[(level, index)]
+            return self.tree[self.get_brother_node_position(position)]
         except:
             raise ValueError("No brother exists.")
+
+    @staticmethod
+    def get_brother_node_position(position):
+        """Get the brother's position.
+
+        Args:
+            position (tuple): (level, index) of the current node.
+        Returns:
+            (tuple): Brother's node position.
+
+        """
+        index = position[1] + 1 if position[1] % 2 == 0 else position[1] - 1
+        return position[0], index
+
+    def get_authentification_path_hashes(self, index):
+        """Authentification path: https://en.wikipedia.org/wiki/Merkle_signature_scheme#Signature_generation
+        
+        Args:
+            index (int): Leaf number (from 0 to n_leaves - 1)
+        
+        Returns:
+            (list) List which contains [auth(0), ..., auth(n-1)].
+        
+        """
+        return [self.tree[i] for i in self.get_authentification_path(index)]
+
+    def get_authentification_path(self, index):
+        """Authentification path: https://en.wikipedia.org/wiki/Merkle_signature_scheme#Signature_generation
+
+        Args:
+            index (int): Leaf number (from 0 to n_leaves - 1)
+
+        Returns:
+            (list) List which contains the indexes.
+
+        """
+        auth_path = []
+        for level in range(self.n_levels - 1):
+            auth_path.append(self.get_brother_node_position((level, index)))
+            index = int(floor(index / 2))  # Parent's node index.
+        return auth_path
 
     @staticmethod
     def hash(data):
@@ -109,17 +152,22 @@ class MerkleTree:
 
 
 def main():
-    mk = MerkleTree(n_leaves=4)
+    mk = MerkleTree(n_leaves=8)
     mk.add_node("test", (0, 0))
     mk.add_node("retest", (0, 1))
-    mk.add_node(None, (0, 2))
-    mk.add_node("bitcoin", (0, 3))
+    mk.add_node("test", (0, 2))
+    mk.add_node("world", (0, 3))
+    mk.add_node("test", (0, 4))
+    mk.add_node("retest", (0, 5))
+    mk.add_node("test", (0, 6))
+    mk.add_node("world", (0, 7))
     mk.generate_tree()
 
     for key, value in mk.tree.items():
         print(key, value)
 
-    print(mk.get_brother((1, 0)))
+    print(mk.get_authentification_path(2))
+    print(mk.get_authentification_path_hashes(2))
 
 
 if __name__ == "__main__":
