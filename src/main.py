@@ -7,7 +7,6 @@
 
 from lamport import LamportSignature
 from merkle_tree import MerkleTree
-from sys import getsizeof
 
 
 def main():
@@ -28,7 +27,7 @@ def main():
     # Merkle signature generation using a chosen pair of keys (Xi, Yi) from the Lamport signature scheme
     # sig = concatenate(sig_prime, Yi, auth(0), ..., auth(n-1))
     # see https://en.wikipedia.org/wiki/Merkle_signature_scheme
-    pair = 0  # (Xi, Yi) pair number
+    pair = 3  # (Xi, Yi) pair number
     sig = []
     M = "test"
     sig_prime = key_pairs[pair].sign(M)
@@ -38,6 +37,7 @@ def main():
 
     ######################################################################
     # Merkle signature verification.
+    ######################################################################
     # Receiver knows the public key 'pub' (tree root), the message 'M' and the Merkle signature 'sig'.
     pub_receiver = pub
     M_receiver = M
