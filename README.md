@@ -12,7 +12,8 @@ The Lamport One-Time Signature Scheme (LOTSS) is a signature scheme in which the
 
 ## Links
 ### Merkle tree
-  - https://fr.wikipedia.org/wiki/Arbre_de_Merkle
+  - https://en.wikipedia.org/wiki/Merkle_signature_scheme
+  - http://cryptologie.net/article/308/hash-based-signatures-part-iii-many-times-signatures/
   - http://blogchaincafe.com/merkle-roots-et-merkle-trees-expliques
   - https://www.weusecoins.com/what-is-a-merkle-tree/
   - https://brilliant.org/wiki/merkle-tree/

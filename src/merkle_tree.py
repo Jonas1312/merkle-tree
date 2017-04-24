@@ -46,7 +46,9 @@ class MerkleTree:
         """
         if data is None:
             self.tree[position] = None
-        elif hashed:
+        elif hashed and type(data) is str:
+            self.tree[position] = bytearray.fromhex(data)
+        elif hashed and type(data) is bytearray:
             self.tree[position] = data
         else:
             self.tree[position] = self.hash(data)

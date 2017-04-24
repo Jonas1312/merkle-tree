@@ -8,7 +8,6 @@
 from bitstring import BitArray
 import hashlib
 from os import urandom
-import itertools
 
 
 class LamportSignature:
@@ -68,7 +67,7 @@ class LamportSignature:
 
     @staticmethod
     def decatenate_key(key):
-        """Deoncatenate key.
+        """Decatenate key.
         
         Args:
             key (bytearray): Key to decatenate.
