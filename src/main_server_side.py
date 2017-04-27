@@ -3,13 +3,13 @@
 """
   Purpose:  Main server side file.
   Created:  27/04/2017
-  Note: Run this file before running 'main_client_side.py'.
+  Note:     Run this file before running 'main_client_side.py'.
 """
 
-from lamport import LamportSignature
-from merkle_tree import MerkleTree
 import pickle
 from socket_client_server import Server
+from lamport import LamportSignature
+from merkle_tree import MerkleTree
 
 
 def main():
