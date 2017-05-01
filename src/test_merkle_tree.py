@@ -5,7 +5,7 @@
   Created:  24/04/2017
 """
 
-from merkle_tree import MerkleTree
+import merkle_tree
 import unittest
 import hashlib
 
@@ -15,29 +15,55 @@ class merkle_tree_test(unittest.TestCase):
 
     def setUp(self):
         """Initialization"""
-        self.merkle_tree1 = MerkleTree(8)
+        self.mk = merkle_tree.MerkleTree(n_leaves=8)
+        self.mk.add_node("test", (0, 0))
+        self.mk.add_node("retest", (0, 1))
+        self.mk.add_node("test", (0, 2))
+        self.mk.add_node("world", (0, 3))
+        self.mk.add_node("test", (0, 4))
+        self.mk.add_node("again", (0, 5))
+        self.mk.add_node("test", (0, 6))
+        self.mk.add_node("andagain", (0, 7))
+        self.mk.generate_tree()
 
     def test_add_node(self):
         """Tests add_node"""
 
         data1 = None
-        data2 = 'A6'
-        data3 = bytearray.fromhex('A6')
+        data2 = 'a6'
+        data3 = bytearray.fromhex('a6')
         data4 = "test"
 
         position1 = 0,0
-        position2 = 1,2
-        position3 = 2,1
+        position2 = 1,1
+        position3 = 2,0
         position4 = 0,3
 
-        self.merkle_tree1.add_node(data1, position1)
-        self.merkle_tree1.add_node(data2, position2, True)
-        self.merkle_tree1.add_node(data3, position3, True)
-        self.merkle_tree1.add_node(data4, position4)
+        self.mk.add_node(data1, position1)
+        self.mk.add_node(data2, position2, True)
+        self.mk.add_node(data3, position3, True)
+        self.mk.add_node(data4, position4)
 
-        self.assertIsNone(self.merkle_tree1.tree[position1])
-        self.assertIs(bytearray.fromhex(data2),self.merkle_tree1.tree[position2])
-        self.assertIs(data3,self.merkle_tree1.tree[position3])
-        self.assertIs(bytearray(hashlib.sha256(data4.encode('utf-8')).digest()),self.merkle_tree1.tree[position4])
+        self.assertIsNone(self.mk.tree[position1])
+        self.assertEqual(bytearray.fromhex(data2),self.mk.tree[position2])
+        self.assertEqual(data3,self.mk.tree[position3])
+        self.assertEqual(bytearray(hashlib.sha256(data4.encode('utf-8')).digest()),self.mk.tree[position4])
 
+    def test_generate_tree(self):
+        """Tests generate_tree"""
+        node_1_0 = bytearray(hashlib.sha256("testretest".encode('utf-8')).digest())
+        node_1_1 = bytearray(hashlib.sha256("testworld".encode('utf-8')).digest())
+        node_1_2 = bytearray(hashlib.sha256("testagain".encode('utf-8')).digest())
+        node_1_3 = bytearray(hashlib.sha256("testandagain".encode('utf-8')).digest())
+        node_2_0 = bytearray(hashlib.sha256(node_1_0 + node_1_1).digest())
+        node_2_1 = bytearray(hashlib.sha256(node_1_2 + node_1_3).digest())
+        node_3_0 = bytearray(hashlib.sha256(node_2_0 + node_2_1).digest())
+
+        self.assertEqual(node_1_0, self.mk.tree[1, 0])
+        self.assertEqual(node_1_1, self.mk.tree[1, 1])
+        self.assertEqual(node_1_2, self.mk.tree[1, 2])
+        self.assertEqual(node_1_3, self.mk.tree[1, 3])
+        self.assertEqual(node_2_0, self.mk.tree[2, 0])
+        self.assertEqual(node_2_1, self.mk.tree[2, 1])
+        self.assertEqual(node_3_0, self.mk.tree[3, 0])
 
