@@ -1,0 +1,1 @@
+cmd /K python3 main_client_side.py
