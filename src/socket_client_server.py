@@ -14,8 +14,6 @@ class Client:
 
     def __init__(self, host="localhost", port=12800):
         """Client object constructor."""
-        self.ip = host
-        self.port = port
         self.sock = socket.socket()
         self.sock.connect((host, port))
         print("Client connected to {}:{}".format(host, port))
@@ -36,7 +34,6 @@ class Server:
 
     def __init__(self, port=12800):
         """Server object constructor."""
-        self.port = port
         self.sock = socket.socket()
         self.sock.bind(('', port))
         self.sock.listen(5)
