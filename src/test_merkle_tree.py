@@ -51,10 +51,18 @@ class merkle_tree_test(unittest.TestCase):
 
     def test_generate_tree(self):
         """Tests generate_tree"""
-        node_1_0 = bytearray(hashlib.sha256("testretest".encode('utf-8')).digest())
-        node_1_1 = bytearray(hashlib.sha256("testworld".encode('utf-8')).digest())
-        node_1_2 = bytearray(hashlib.sha256("testagain".encode('utf-8')).digest())
-        node_1_3 = bytearray(hashlib.sha256("testandagain".encode('utf-8')).digest())
+        node_0_0 = bytearray(hashlib.sha256("test".encode('utf-8')).digest())
+        node_0_1 = bytearray(hashlib.sha256("retest".encode('utf-8')).digest())
+        node_0_2 = bytearray(hashlib.sha256("test".encode('utf-8')).digest())
+        node_0_3 = bytearray(hashlib.sha256("world".encode('utf-8')).digest())
+        node_0_4 = bytearray(hashlib.sha256("test".encode('utf-8')).digest())
+        node_0_5 = bytearray(hashlib.sha256("again".encode('utf-8')).digest())
+        node_0_6 = bytearray(hashlib.sha256("test".encode('utf-8')).digest())
+        node_0_7 = bytearray(hashlib.sha256("andagain".encode('utf-8')).digest())
+        node_1_0 = bytearray(hashlib.sha256(node_0_0 + node_0_1).digest())
+        node_1_1 = bytearray(hashlib.sha256(node_0_2 + node_0_3).digest())
+        node_1_2 = bytearray(hashlib.sha256(node_0_4 + node_0_5).digest())
+        node_1_3 = bytearray(hashlib.sha256(node_0_6 + node_0_7).digest())
         node_2_0 = bytearray(hashlib.sha256(node_1_0 + node_1_1).digest())
         node_2_1 = bytearray(hashlib.sha256(node_1_2 + node_1_3).digest())
         node_3_0 = bytearray(hashlib.sha256(node_2_0 + node_2_1).digest())
