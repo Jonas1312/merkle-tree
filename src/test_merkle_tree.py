@@ -93,7 +93,22 @@ class merkle_tree_test(unittest.TestCase):
         self.assertEqual(sib4, self.mk.get_brother_node_position(sib3))
 
     def test_get_brother_node_hash(self):
-        
+        """Tests get_brother_node_hash"""
+        node = (2,1)
+        self.assertEqual(self.mk.tree[2,0], self.mk.get_brother_node_hash(node))
+
+    def test_get_authentification_path(self):
+        """Tests get_authentification_path"""
+        leaf_index = 6
+        path = [(0,7),(1,2),(2,0)]
+        self.assertEqual(path, self.mk.get_authentification_path(leaf_index))
+
+    def test_get_authentification_path_hashes(self):
+        """Tests get_authentification_path_hashes"""
+        leaf_index = 6
+        path = [(0,7),(1,2),(2,0)]
+        path_hashes = [self.mk.tree[i] for i in path]
+        self.assertEqual(path_hashes, self.mk.get_authentification_path_hashes(leaf_index))
 
 
 
