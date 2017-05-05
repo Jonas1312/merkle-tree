@@ -75,3 +75,51 @@ class merkle_tree_test(unittest.TestCase):
         self.assertEqual(node_2_1, self.mk.tree[2, 1])
         self.assertEqual(node_3_0, self.mk.tree[3, 0])
 
+    def test_get_root(self):
+        """Tests get_root"""
+        root = self.mk.get_root()
+        self.assertIs(type(root),bytearray)
+        self.assertEqual(root, self.mk.tree[3, 0])
+
+    def test_get_brother_node_position(self):
+        """Tests get_brother_node_position"""
+        sib1 = (0,2)
+        sib2 = (0,3)
+        sib3 = (1,1)
+        sib4 = (1,0)
+        self.assertEqual(sib1, self.mk.get_brother_node_position(sib2))
+        self.assertEqual(sib2, self.mk.get_brother_node_position(sib1))
+        self.assertEqual(sib3, self.mk.get_brother_node_position(sib4))
+        self.assertEqual(sib4, self.mk.get_brother_node_position(sib3))
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
