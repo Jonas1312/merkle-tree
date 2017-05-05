@@ -92,7 +92,8 @@ class merkle_tree_test(unittest.TestCase):
         self.assertEqual(sib3, self.mk.get_brother_node_position(sib4))
         self.assertEqual(sib4, self.mk.get_brother_node_position(sib3))
 
-    
+    def test_get_brother_node_hash(self):
+        
 
 
 
