@@ -19,7 +19,3 @@ The Lamport One-Time Signature Scheme (LOTSS) is a signature scheme in which the
   - https://brilliant.org/wiki/merkle-tree/
 ### Lamport signature
   - https://en.wikipedia.org/wiki/Lamport_signature
-### Unit tests
-  - http://python-guide-pt-br.readthedocs.io/en/latest/writing/tests/
-  - https://docs.pytest.org/en/latest/assert.html
-  - https://confluence.jetbrains.com/display/PYH/Creating+and+running+a+Python+unit+test
