@@ -9,6 +9,7 @@ import merkle_tree
 import unittest
 import hashlib
 
+
 class merkle_tree_test(unittest.TestCase):
 
     """Tests the merkle_tree functions"""
@@ -109,33 +110,3 @@ class merkle_tree_test(unittest.TestCase):
         path = [(0,7),(1,2),(2,0)]
         path_hashes = [self.mk.tree[i] for i in path]
         self.assertEqual(path_hashes, self.mk.get_authentification_path_hashes(leaf_index))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
