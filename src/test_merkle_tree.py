@@ -12,7 +12,7 @@ import hashlib
 
 class merkle_tree_test(unittest.TestCase):
 
-    """Tests the merkle_tree functions"""
+    """Tests the merkle_tree methods"""
 
     def setUp(self):
         """Initialization"""
