@@ -54,14 +54,29 @@ class lamport_signature_test(unittest.TestCase):
         self.assertEqual(prK, self.ls.private_key)
         self.assertEqual(prKC, self.ls.concatenate_key(self.ls.private_key))
 
-    def test_sign(self):
-        """Tests sign"""
-        msg = 'Ceci est un test de la méthode sign'
-        msg_hash = self.ls.hash(msg)
-        signature = []
-        
-
     def test_verify(self):
         """Tests verify"""
+        msg = 'Ceci est un message test'
+        msg2 = 'Ceci est un autre message test'
+        signature = self.ls.sign(msg)
+        signature2 = self.ls.sign(msg2)
+        self.assertTrue(self.ls.verify(msg,signature,self.ls.public_key))
+        self.assertFalse(self.ls.verify(msg,signature2,self.ls.public_key))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
