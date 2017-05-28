@@ -112,6 +112,8 @@ class LamportSignature:
             (list): Signature of the message, sequence of 256 random numbers, 256×256 bits.
         
         """
+        if self.used:
+            raise ValueError("Private and public keys already used!")
         self.used = True
         msg_hash = self.hash(msg)
         signature = []
